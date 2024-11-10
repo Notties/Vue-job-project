@@ -8,6 +8,11 @@ Youtube tutorial -> [YouTube crash course](https://www.youtube.com/watch?v=VeNfH
 
 This project uses JSON-Server for a mock backend.
 
+### Create .env
+```env
+VITE_APP_API_URL=http://localhost:8000
+```
+
 ### Install Dependencies
 
 ```bash
