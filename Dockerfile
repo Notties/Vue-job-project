@@ -19,18 +19,14 @@ RUN npm run build
 # Use nginx to serve the built files
 FROM nginx:alpine
 
+# Copy custom nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Copy the built files to nginx
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Install json-server to serve the API
-RUN apk add --no-cache nodejs npm
-RUN npm install -g json-server
+# Expose port 80 for the website
+EXPOSE 80
 
-# Copy jobs.json file for json-server
-COPY src/jobs.json /data/jobs.json
-
-# Expose port 80 for the website and port 8000 for json-server
-EXPOSE 80 8000
-
-# Run nginx and json-server together
-CMD ["sh", "-c", "json-server --watch /data/jobs.json --port 8000 & nginx -g 'daemon off;'"]
+# Run nginx in the foreground
+CMD ["nginx", "-g", "daemon off;"]

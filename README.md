@@ -13,6 +13,11 @@ This project uses JSON-Server for a mock backend.
 VITE_APP_API_URL=http://localhost:8000
 ```
 
+### Run with Docker Compose (Optional)
+```bash
+docker compose up --build
+```
+
 ### Install Dependencies
 
 ```bash
@@ -46,3 +51,4 @@ npm run build
 ```bash
 npm run preview
 ```
+
