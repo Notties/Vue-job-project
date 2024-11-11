@@ -23,6 +23,3 @@ jobs:
       run: docker build -t cicd-pipeline .
     - name: Push to DockerHub
       run: docker push akthakorn/vue-job-project-frontend
-      
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
