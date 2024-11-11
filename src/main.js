@@ -13,3 +13,4 @@ app.use(router);
 app.use(Toast);
 
 app.mount('#app');
+
