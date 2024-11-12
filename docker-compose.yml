@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   frontend:
     build:
@@ -7,25 +7,31 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - api
+      api:
+        condition: service_healthy
     networks:
       - app-network
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf  # mount nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
 
   api:
     build:
       context: ./data
       dockerfile: Dockerfile
     command: -h 0.0.0.0 -p 8000 -s ./public jobs.json
-    init: true
     ports:
       - "8000:8000"
+    init: true
     volumes:
       - ./data:/data
     restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]  # Checks if API is responding
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   app-network:
