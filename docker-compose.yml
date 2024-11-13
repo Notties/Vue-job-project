@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: akthakorn/vue-job-project-frontend:latest
     ports:
-      - "80:80"
+      - "8080:80"
     # depends_on:
     #   api:
     #     condition: service_healthy
@@ -20,9 +20,9 @@ services:
       context: ./data
       dockerfile: Dockerfile
     image: akthakorn/vue-job-project-api:latest
-    command: -h 0.0.0.0 -p 8000 -s ./public jobs.json
+    command: -h 0.0.0.0 -p 8001 -s ./public jobs.json
     ports:
-      - "8000:8000"
+      - "8001:8000"
     init: true
     volumes:
       - ./data:/data
