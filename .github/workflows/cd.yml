@@ -8,15 +8,18 @@ on:
         - completed
 
 jobs:
-
   build:
-
     runs-on: self-hosted
 
     steps:
-    - name: Pull Docker Image
-      run: sudo docker pull ${{secrets.DOCKER_USER}}/vue-job-project-frontend:latest
-    - name: Delete Old Docker Container
-      run: sudo docker rm -f vue-job-project-frontend || true
-    - name: Run Docker Container
-      run: sudo docker run -d -p 80:80 --name vue-job-project-frontend ${{secrets.DOCKER_USER}}/vue-job-project-frontend
+    - name: Pull Latest Docker Images
+      run: |
+        sudo docker-compose -f docker-compose.yml pull
+
+    - name: Stop and Remove Old Containers
+      run: |
+        sudo docker-compose -f docker-compose.yml down || true
+
+    - name: Run Docker Containers
+      run: |
+        sudo docker-compose -f docker-compose.yml up -d

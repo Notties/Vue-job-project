@@ -7,7 +7,6 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +18,19 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
-    - name: Build the Docker image
-      run: docker build -t ${{secrets.DOCKER_USER}}/vue-job-project-frontend:latest .
-    - name: Push to DockerHub
-      run: docker push ${{secrets.DOCKER_USER}}/vue-job-project-frontend:latest
+      # Install Docker Compose if not already installed
+    - name: Set up Docker Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-compose  
+
+      # Build images as per docker-compose.yml
+    - name: Build Docker Compose services
+      run: docker-compose -f docker-compose.yml build  
+
+      # Push frontend image to Docker Hub
+      # Push API image to Docker Hub
+    - name: Push Docker images
+      run: |
+        docker-compose -f docker-compose.yml push frontend  
+        docker-compose -f docker-compose.yml push api  

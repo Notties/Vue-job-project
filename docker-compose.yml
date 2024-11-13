@@ -4,11 +4,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: akthakorn/vue-job-project-frontend:latest
     ports:
       - "80:80"
-    depends_on:
-      api:
-        condition: service_healthy
+    # depends_on:
+    #   api:
+    #     condition: service_healthy
     networks:
       - app-network
     volumes:
@@ -18,6 +19,7 @@ services:
     build:
       context: ./data
       dockerfile: Dockerfile
+    image: akthakorn/vue-job-project-api:latest
     command: -h 0.0.0.0 -p 8000 -s ./public jobs.json
     ports:
       - "8000:8000"
@@ -27,11 +29,11 @@ services:
     restart: unless-stopped
     networks:
       - app-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]  # Checks if API is responding
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8000"]  # Checks if API is responding
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3
 
 networks:
   app-network:
