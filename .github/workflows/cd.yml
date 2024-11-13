@@ -4,17 +4,21 @@ on:
   push:
     workflow_run:
       workflows: ["CI Pipeline"]
-      types: 
+      types:
         - completed
 
 jobs:
-  build:
+  deploy:
     runs-on: self-hosted
 
     steps:
-    - name: Pull Latest Docker Images
+    - name: Set up Docker Compose
       run: |
-        sudo docker-compose -f docker-compose.yml pull
+        sudo apt-get update
+        sudo apt-get install -y docker-compose
+
+    - name: Pull Latest Docker Images
+      run: sudo docker-compose -f docker-compose.yml pull
 
     - name: Stop and Remove Old Containers
       run: |
