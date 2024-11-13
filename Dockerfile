@@ -16,7 +16,7 @@ RUN npm install
 COPY . .
 
 # Build the production version of the app
-RUN npm run build
+RUN npm run build && ls -l /app/dist
 
 # Use nginx to serve the built files
 FROM nginx:alpine
