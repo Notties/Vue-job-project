@@ -17,13 +17,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
-    - name: Pull Latest Docker Images
-      run: sudo docker-compose -f docker-compose.yml pull
+    - name: Check out code
+    - uses: actions/checkout@v4
 
-    - name: Stop and Remove Old Containers
+    - name: Remove all Containers
       run: |
-        sudo docker-compose -f docker-compose.yml down || true
+        sudo docker container prune -f
 
-    - name: Run Docker Containers
+    - name: Run docker-compose
       run: |
-        sudo docker-compose -f docker-compose.yml up -d
+        sudo docker-compose up -d
